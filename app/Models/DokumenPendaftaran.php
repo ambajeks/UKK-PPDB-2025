@@ -1,0 +1,11 @@
+<?php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class DokumenPendaftaran extends Model
+{
+    protected $fillable = ['formulir_id','jenis_dokumen','path_file'];
+
+    public function formulir(){ return $this->belongsTo(FormulirPendaftaran::class,'formulir_id'); }
+}
