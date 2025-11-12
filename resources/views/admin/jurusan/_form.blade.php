@@ -8,3 +8,4 @@
   <input type="text" name="kode_jurusan" class="form-control" value="{{ old('kode_jurusan',$jurusan->kode_jurusan??'') }}" required>
 </div>
 <button class="btn btn-primary">Simpan</button>
+<a href="{{ route('admin.jurusan.index') }}" class="btn btn-secondary">Kembali</a>

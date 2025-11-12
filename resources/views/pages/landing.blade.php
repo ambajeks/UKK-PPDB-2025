@@ -9,6 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     {{-- Icons --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    {{-- Google Font --}}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         body {
@@ -17,17 +19,60 @@
         }
         .navbar {
             background-color: #0d6efd;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        /* only style regular nav links, not button links (btn-light) */
         .navbar .nav-link {
             color: white !important;
             font-weight: 500;
+            margin-right: 10px;
+            transition: 0.3s;
         }
+        .navbar .nav-link:hover {
+            color: #ffc107 !important;
+        }
+        .btn-login {
+            background: linear-gradient(90deg, #ffffff, #e9ecef);
+            color: #0d6efd;
+            border-radius: 30px;
+            font-weight: 600;
+            padding: 8px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-login:hover {
+            background-color: #ffc107;
+            transform: scale(1.05);
+        }
+
+        /* Hero sekarang menggunakan background gambar dengan overlay gelap
+           Letakkan file gambar di: public/images/hero.jpg (atau ubah path di bawah) */
         .hero {
-            background: linear-gradient(to right, #0d6efd, #2575fc);
+            position: relative;
             color: white;
-            padding: 100px 0;
+            padding: 120px 0;
             text-align: center;
+            background-image: url('images/sekolah.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            min-height: 380px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* overlay untuk meningkatkan kontras teks */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.25));
+            z-index: 0;
+        }
+
+        /* pastikan konten berada di atas overlay */
+        .hero .container {
+            position: relative;
+            z-index: 1;
         }
         .hero h1 {
             font-weight: 700;
@@ -57,12 +102,28 @@
             color: #0d6efd;
             margin-bottom: 15px;
         }
+        .accordion-button {
+            font-weight: 600;
+            color: #0d6efd;
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: #e7f0ff;
+            color: #0d6efd;
+        }
         footer {
             background: #0d6efd;
             color: white;
             text-align: center;
             padding: 20px 0;
             margin-top: 50px;
+        }
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -76,13 +137,18 @@
                 <span class="navbar-toggler-icon text-white"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
                     <li class="nav-item"><a class="nav-link" href="#beranda">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="#jurusan">Jurusan</a></li>
                     <li class="nav-item"><a class="nav-link" href="#pendaftaran">Tata Cara</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
-                    <li class="nav-item"><a class="btn btn-light btn-sm ms-3" href="{{ route('login') }}">Login</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-login" href="{{ route('login') }}">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -138,35 +204,73 @@
                     <div class="timeline-step">
                         <i class="bi bi-person-plus timeline-icon"></i>
                         <h5 class="fw-bold">1. Buat Akun</h5>
-                        <p class="text-muted">Klik tombol <strong>Daftar</strong> di halaman utama untuk membuat akun PPDB.</p>
+                        <p class="text-muted">Klik <strong>Daftar</strong> untuk membuat akun PPDB.</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="timeline-step">
                         <i class="bi bi-file-earmark-text timeline-icon"></i>
                         <h5 class="fw-bold">2. Isi Formulir</h5>
-                        <p class="text-muted">Masukkan data diri lengkap dan pastikan semua informasi benar.</p>
+                        <p class="text-muted">Isi data pribadi dan sekolah asal dengan benar.</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="timeline-step">
                         <i class="bi bi-upload timeline-icon"></i>
                         <h5 class="fw-bold">3. Upload Dokumen</h5>
-                        <p class="text-muted">Unggah dokumen yang dibutuhkan seperti rapor dan akta kelahiran.</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="timeline-step">
-                        <i class="bi bi-cash-stack timeline-icon"></i>
-                        <h5 class="fw-bold">4. Lakukan Pembayaran</h5>
-                        <p class="text-muted">Bayar biaya pendaftaran sesuai petunjuk, lalu tunggu verifikasi dari admin.</p>
+                        <p class="text-muted">Unggah rapor, akta kelahiran, dan dokumen lain.</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="timeline-step">
                         <i class="bi bi-check-circle timeline-icon"></i>
-                        <h5 class="fw-bold">5. Selesai!</h5>
-                        <p class="text-muted">Setelah diverifikasi, kamu resmi terdaftar sebagai calon siswa SMK Antartika.</p>
+                        <h5 class="fw-bold">4. Verifikasi & Selesai</h5>
+                        <p class="text-muted">Tunggu verifikasi admin. Jika disetujui, kamu resmi terdaftar!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- FAQ --}}
+    <section id="faq" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="section-title text-center">Pertanyaan Umum (FAQ)</h2>
+            <div class="accordion mt-4" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faq1">
+                        <button class="accordion-button fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                            Bagaimana cara mendaftar PPDB Online?
+                        </button>
+                    </h2>
+                    <div id="collapse1" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            Klik tombol <strong>“Daftar Sekarang”</strong> di halaman utama, lalu isi data diri kamu sesuai petunjuk sistem.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faq2">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                            Apakah saya bisa mendaftar lewat HP?
+                        </button>
+                    </h2>
+                    <div id="collapse2" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            Bisa! Website PPDB ini sudah mendukung tampilan mobile, kamu bisa daftar lewat HP dengan mudah.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faq3">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                            Bagaimana kalau lupa password akun?
+                        </button>
+                    </h2>
+                    <div id="collapse3" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            Klik <strong>“Lupa Password”</strong> di halaman login, lalu ikuti langkah reset melalui email kamu.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -177,8 +281,7 @@
     <section id="tentang" class="py-5 bg-light">
         <div class="container text-center">
             <h2 class="section-title">Tentang Sekolah</h2>
-            <p class="lead text-muted">SMK Antartika berkomitmen mencetak generasi unggul dan siap kerja. 
-            Kami menyediakan fasilitas modern dan tenaga pengajar berpengalaman untuk mendukung masa depanmu.</p>
+            <p class="lead text-muted">SMK Antartika berkomitmen mencetak generasi unggul dan siap kerja dengan fasilitas modern dan pengajar berpengalaman.</p>
         </div>
     </section>
 
@@ -187,12 +290,11 @@
         <div class="container text-center">
             <h2 class="section-title">Hubungi Kami</h2>
             <p class="lead">📍 Jl. Raya Siwalanpanji 61252, Buduran, Sidoarjo<br>
-                📞 (031) 8962851 Mon-Fri 06.30 - 16.30| ✉️ info smks.antartika1.sda@gmail.com</p>
-
+                📞 (031) 8962851 | ✉️ smks.antartika1.sda@gmail.com</p>
             <div class="mt-3">
-                <a href="#" class="btn btn-outline-primary"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="btn btn-outline-info"><i class="bi bi-twitter"></i></a>
-                <a href="#" class="btn btn-outline-danger"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="btn btn-outline-light"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="btn btn-outline-light"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="btn btn-outline-light"><i class="bi bi-instagram"></i></a>
             </div>
         </div>
     </section>
@@ -200,7 +302,6 @@
     {{-- Footer --}}
     <footer>
         <p>&copy; {{ date('Y') }} SMK Antartika | PPDB Online</p>
-        <a href="{{ route('login') }}" class="text-white-50 small">Masuk sebagai Admin</a>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

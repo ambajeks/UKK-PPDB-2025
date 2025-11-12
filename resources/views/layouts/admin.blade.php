@@ -64,14 +64,24 @@
                     <li class="nav-item"><a href="{{ route('admin.jurusan.index') }}" class="nav-link {{ request()->routeIs('admin.jurusan.*') ? 'active' : '' }}">Jurusan</a></li>
                     <li class="nav-item"><a href="{{ route('admin.gelombang.index') }}" class="nav-link {{ request()->routeIs('admin.gelombang.*') ? 'active' : '' }}">Gelombang</a></li>
                     <li class="nav-item"><a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">Users</a></li>
+                    <li class="nav-item"><a href="{{ route('admin.promo.index') }}"class="nav-link {{ request()->routeIs('admin.promo.*') ? 'active' : '' }}">Promo</a></li>
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-secondary btn-sm">Logout</button>
+                        </form>
+                    </li>
+
+
                 </ul>
             </div>
         </div>
     </nav>
 
-    {{-- Konten utama --}}
-    <div class="content-wrapper mt-5 pt-4">
+    <div class="content-wrapper mt-5 pt-5">
+    <div class="container">
         @yield('content')
+    </div>
     </div>
 
     {{-- Bootstrap JS --}}

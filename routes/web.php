@@ -22,7 +22,7 @@ use App\Http\Controllers\{
 */
 
 Route::get('/', function () {
-    return view('landing');
+    return view('pages.landing');
 });
 
 

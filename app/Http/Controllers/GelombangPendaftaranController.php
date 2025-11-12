@@ -17,7 +17,7 @@ class GelombangPendaftaranController extends Controller
     public function index()
     {
         $gelombangs = GelombangPendaftaran::paginate(15);
-        return view('layouts.gelombang.index', compact('gelombangs'));
+        return view('admin.gelombang.index', compact('gelombangs'));
     }
 
     public function create()
